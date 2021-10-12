@@ -10,6 +10,12 @@ def calculate_monster_attack():
 def calculate_player_attack():
     return randint(player['attack_min'], player['attack_max'])
 
+def calculate_player_heal():
+    return randint(player['heal_min'], player['heal_max'])
+
+def crit_hits():
+    return randint(0,3)
+
 def game_ends(winner_name):
     print (f'{winner_name} won!')
 
@@ -18,8 +24,8 @@ while game_running == True:
     counter = 0
 
     new_round = True
-    player = {'name': '黒みぼ', 'attack_min': 13, 'attack_max': 15, 'health': 100}
-    monster = {'name': 'Miguel', 'attack_min': 10, 'attack_max': 20, 'health': 100}
+    player = {'name': '黒みぼ', 'attack_min': 13, 'attack_max': 15, 'health': 100, 'heal_min':7, 'heal_max':18}
+    monster = {'name': 'Goblin', 'attack_min': 10, 'attack_max': 20, 'health': 100}
 
     print ('---' * 8)
     print ('---' * 8)
@@ -45,7 +51,13 @@ while game_running == True:
         player_choice = input()
 
         if player_choice == '1':
-            monster['health'] = monster['health'] - calculate_player_attack()
+            # player_attack = calculate_player_attack()
+            # crit_strike = crit_hits()
+            # if crit_strike == 0 or 2:
+            #     player_attack = player_attack * 1
+            # elif crit_strike == 1 or 3:
+            #     player_attack = player_attack * 1.5
+            monster['health'] = monster['health'] - calculate_monster_attack()
             if monster['health'] <= 0:
                 player_won = True
             else:
@@ -54,8 +66,7 @@ while game_running == True:
                     monster_won = True
 
         elif player_choice == '2':
-            player['health'] = player['health'] + player['heal']
-
+            player['health'] = player['health'] + calculate_player_heal()
             player['health'] = player['health'] - calculate_monster_attack()
             if player['health'] <= 0:
                 monster_won = True
